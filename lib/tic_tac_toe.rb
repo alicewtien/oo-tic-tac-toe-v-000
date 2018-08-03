@@ -36,7 +36,7 @@ class TicTacToe
   end
 
   def valid_move?(index)
-    position_taken?(index) == false && index.between?(0, 8) #because .between? is NOT a local method so no need for @index
+    position_taken?(index) == false && index.between?(0, 8) #because .between? is NOT a local method
   end
 
   def turn
@@ -98,7 +98,7 @@ class TicTacToe
       turn
     end
     if won?
-      puts "congratulations #{@board.winner}!"
+      puts "congratulations #{winner}!"
     elsif draw?
       puts "Cat's Game!"
     end
