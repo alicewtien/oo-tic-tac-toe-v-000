@@ -44,8 +44,8 @@ class TicTacToe
     @input = gets.strip
     input_to_index(@input)
     if valid_move?(@index)
-      @board.move(@index, current_player)
-      @board.display_board
+      move(@index, current_player)
+      display_board
     else
       @board.turn
     end
