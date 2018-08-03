@@ -79,15 +79,15 @@ class TicTacToe
   end
 
   def draw?
-    @board.full? && !@board.won?
+    full? && !won?
   end
 
   def over?
-    @board.won? || @board.full? || @board.draw?
+    won? || full? || draw?
   end
 
   def winner
-    if @board.won?
+    if won?
       return @board[@board.won?[0]]
     else
       return nil
@@ -95,12 +95,12 @@ class TicTacToe
   end
 
   def play
-    while @board.over? == false
-      @board.turn
+    while over? == false
+      turn
     end
-    if @board.won?
+    if won?
       puts "congratulations #{@board.winner}!"
-    elsif @board.draw?
+    elsif draw?
       puts "Cat's Game!"
     end
   end
