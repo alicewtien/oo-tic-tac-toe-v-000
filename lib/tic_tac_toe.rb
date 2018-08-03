@@ -1,0 +1,107 @@
+class TicTacToe
+
+  def initialize(board = nil)
+    @board = [" "," "," "," "," "," "," "," "," "]
+  end
+
+  WIN_COMBINATIONS = [
+      [0, 1, 2], #top
+      [3, 4, 5], #middle
+      [6, 7, 8], #bottom
+      [0, 3, 6], #|
+      [1, 4, 7], # |
+      [2, 5, 8], #  |
+      [0, 4, 8], #\
+      [2, 4, 6]
+    ]
+
+  def display_board
+    puts " #{@board[0]} | #{@board[1]} | #{@board[2]} "
+    puts "-----------"
+    puts " #{@board[3]} | #{@board[4]} | #{@board[5]} "
+    puts "-----------"
+    puts " #{@board[6]} | #{@board[7]} | #{@board[8]} "
+  end
+
+  def input_to_index(input)
+    @index = input.to_i-1
+  end
+
+  def move(index, token="X")
+    @board[index] = "#{token}"
+  end
+
+  def position_taken?(index)
+    @board[index] == "X" || @board[index] == "O"
+  end
+
+  def valid_move?(index)
+    position_taken?(index) == false && index.between?(0, 8) #because .between? is NOT a local method so no need for @index
+  end
+
+  def turn
+    puts "Please enter 1-9:"
+    @input = gets.strip
+    input_to_index(input)
+    if @board.valid_move?(index)
+      @board.move(index, current_player)
+      @board.display_board
+    else
+      @board.turn
+    end
+  end
+
+  def turn_count
+    turn = 0
+    @board.each {|index|
+      if index == "X" || index == "O"
+        turn +=1
+      end}
+    return turn
+  end
+
+  def current_player
+    if turn_count % 2 == 0
+      return "X"
+    else
+      return "O"
+    end
+  end
+
+  def won?
+    WIN_COMBINATIONS.find { |combo|
+    @board[combo[0]] == @board[combo[1]] && @board[combo[1]] == @board[combo[2]] && @board[combo[2]] != " "}
+  end
+
+  def full?
+    @board.none? { |index| index == " "} && !@board.won?
+  end
+
+  def draw?
+    @board.full? && !@board.won?
+  end
+
+  def over?
+    @board.won? || @board.full? || @board.draw?
+  end
+
+  def winner
+    if @board.won?
+      return @board[@board.won?[0]]
+    else
+      return nil
+    end
+  end
+
+  def play
+    while @board.over? == false
+      @board.turn
+    end
+    if @board.won?
+      puts "congratulations #{@board.winner}!"
+    elsif @board.draw?
+      puts "Cat's Game!"
+    end
+  end
+
+end
